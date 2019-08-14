@@ -23,7 +23,7 @@ module Example: {
 let oneLessThanTheMeaningOfLifeEtc =
   Example.subtractOne(Example.theMeaningOfLifeTheUniverseAndEverything);
 
-assert (oneLessThanTheMeaningOfLifeEtc == 41);
+assert(oneLessThanTheMeaningOfLifeEtc == 41);
 
 /*
   Types can be exposed via signatures in Reason as well. Here's an example of declaring
@@ -53,28 +53,27 @@ let two =
 
 let four = AbstractTypeExample.toInt(AbstractTypeExample.add(two, two));
 
-assert (four == 4);
+assert(four == 4);
 
 module Fraction: {
   type t;
-  /*
-    TODO: Add signatures for the create and value functions to expose them in
-    the Fraction module.
-   */
+  let create: (~numerator: int, ~denominator: int) => (int, int);
+  let value: ((int, int)) => float;
 } = {
   type t = (int, int);
+  type a = int;
   let create = (~numerator, ~denominator) => (numerator, denominator);
   let value = ((numerator, denominator)) =>
     float_of_int(numerator) /. float_of_int(denominator);
 };
 /* TODO: After adding signatures above uncomment the tests below */
-/* Test.runAll([
-     (
-       Fraction.value(Fraction.create(~numerator=5, ~denominator=2)) == 2.5,
-       "Fraction.value",
-     ),
-     (
-       Fraction.value(Fraction.create(~numerator=4, ~denominator=10)) == 0.4,
-       "Fraction.value",
-     ),
-   ]); */
+Test.runAll([
+  (
+    Fraction.value(Fraction.create(~numerator=5, ~denominator=2)) == 2.5,
+    "Fraction.value",
+  ),
+  (
+    Fraction.value(Fraction.create(~numerator=4, ~denominator=10)) == 0.4,
+    "Fraction.value",
+  ),
+]);
